@@ -1,9 +1,13 @@
 import React from 'react';
 import bannerHero from '../../../../assets/images/chair.png'
 import PrimaryButton from '../../../../Components/PrimaryButton/PrimaryButton';
+import bannerBg from '../../../../assets/images/bg.png'
 const Banner = () => {
     return (
-        <div className="hero">
+        <div style={{
+            background: `url(${bannerBg})`,
+            backgroundSize: "cover"
+        }} className="hero">
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <img alt='' src={bannerHero} className="rounded-lg shadow-2xl lg:w-1/2" />
                 <div>
