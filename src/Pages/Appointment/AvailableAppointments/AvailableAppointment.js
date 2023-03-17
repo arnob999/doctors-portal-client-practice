@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AvailableAppointment = ({ appointmentOption }) => {
+const AvailableAppointment = ({ appointmentOption, setShowInModals }) => {
     const { name, slots } = appointmentOption
     return (
         <div className="card shadow-lg">
@@ -15,7 +15,9 @@ const AvailableAppointment = ({ appointmentOption }) => {
                     {slots.length} {slots.length > 1 ? 'Slots' : 'Slot'}  Available
                 </p>
                 <div className="card-actions justify-center">
-                    <button className="btn btn-secondary text-white">Book Appointment</button>
+                    <label
+                        onClick={() => setShowInModals(appointmentOption)}
+                        htmlFor="appointment" className="btn btn-secondary text-white">Book Appointment</label>
                 </div>
             </div>
         </div>
