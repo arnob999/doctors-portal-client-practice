@@ -16,8 +16,10 @@ const AvailableAppointment = ({ appointmentOption, setShowInModals }) => {
                 </p>
                 <div className="card-actions justify-center">
                     <label
+                        disabled={slots?.length === 0}
                         onClick={() => setShowInModals(appointmentOption)}
-                        htmlFor="appointment" className="btn btn-secondary text-white">Book Appointment</label>
+                        htmlFor="appointment"
+                        className="btn btn-secondary text-white">Book Appointment</label>
                 </div>
             </div>
         </div>

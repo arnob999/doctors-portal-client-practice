@@ -22,7 +22,8 @@ const AvailableAppointments = ({ selectedDate }) => {
                         setShowInModals={setShowInModals} />)
                 }
             </div>
-            <AppointmentModal showInModals={showInModals}></AppointmentModal>
+            <AppointmentModal showInModals={showInModals}
+                selectedDate={selectedDate}></AppointmentModal>
         </div>
     );
 };
