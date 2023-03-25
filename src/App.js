@@ -1,6 +1,6 @@
 import { RouterProvider } from 'react-router-dom';
 import './App.css';
-import router from './Routes/Routes';
+import router from './Routes/Routes/Routes';
 import 'react-day-picker/dist/style.css';
 import { Toaster } from 'react-hot-toast';
 
