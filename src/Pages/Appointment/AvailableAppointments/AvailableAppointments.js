@@ -7,7 +7,7 @@ const AvailableAppointments = ({ selectedDate }) => {
     const [showInModals, setShowInModals] = useState([])
 
     useEffect(() => {
-        fetch('appointmentOptions.json')
+        fetch('http://localhost:5000/appointmentOptions')
             .then(res => res.json())
             .then(data => setAppointmentOptions(data))
     }, [])
