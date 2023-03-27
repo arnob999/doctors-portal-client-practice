@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
 
 const SignUp = () => {
@@ -11,6 +11,9 @@ const SignUp = () => {
     const [signUpError, setSignUpError] = useState('')
 
     const { createUser, updateUser } = useContext(AuthContext)
+
+    const navigate = useNavigate()
+
 
     const handleSignUp = (data) => {
         console.log(data);
@@ -24,7 +27,9 @@ const SignUp = () => {
                     displayName: data.name
                 }
                 updateUser(userInfo)
-                    .then(() => { })
+                    .then(() => {
+                        navigate('/')
+                    })
                     .catch(err => console.error(err))
             })
             .catch(err => {
