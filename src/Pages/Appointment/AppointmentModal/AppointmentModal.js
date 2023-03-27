@@ -3,9 +3,10 @@ import React, { useContext } from 'react';
 import { toast } from 'react-hot-toast';
 import { AuthContext } from '../../../contexts/AuthProvider';
 
-const AppointmentModal = ({ setTreatment, treatment, selectedDate }) => {
+const AppointmentModal = ({ setTreatment, treatment, selectedDate, refetch }) => {
     const date = format(selectedDate, 'PP')
     const { user } = useContext(AuthContext)
+
     const handleBooking = event => {
         event.preventDefault();
         const form = event.target;
@@ -23,7 +24,6 @@ const AppointmentModal = ({ setTreatment, treatment, selectedDate }) => {
             email,
             phone
         }
-        console.log(booking)
 
         fetch('http://localhost:5000/bookings', {
             method: "POST",
@@ -38,8 +38,13 @@ const AppointmentModal = ({ setTreatment, treatment, selectedDate }) => {
 
                 if (data.acknowledged) {
                     setTreatment(null)
-                    toast.success("Booking Confirm")
+                    toast.success("Booking Confirmed")
+                    refetch();
                 }
+                else {
+                    toast.error(data?.message)
+                }
+
             })
     }
     return (
