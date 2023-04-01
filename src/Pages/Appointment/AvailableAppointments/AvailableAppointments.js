@@ -1,48 +1,48 @@
-import React, { useState } from 'react';
-import { format } from 'date-fns';
-import AvailableAppointment from './AvailableAppointment';
-import AppointmentModal from '../AppointmentModal/AppointmentModal';
 import { useQuery } from '@tanstack/react-query';
-import Loading from '../../Homepage/Home/Shared/Loading/Loading';
+import { format } from 'date-fns';
+import React, { useState } from 'react';
+import Loading from '../../Shared/Loading/Loading';
+import BookingModal from '../BookingModal/BookingModal';
+import AppointmentOption from './AppointmentOption';
+
 const AvailableAppointments = ({ selectedDate }) => {
-    const [treatment, setTreatment] = useState(null)
-    const date = format(selectedDate, 'PP')
-
-    // const [appointmentOptions, setAppointmentOptions] = useState([])
-
-    // useEffect(() => {
-    //     fetch('http://localhost:5000/appointmentOptions')
-    //         .then(res => res.json())
-    //         .then(data => setAppointmentOptions(data))
-    // }, [])
-
+    const [treatment, setTreatment] = useState(null);
+    const date = format(selectedDate, 'PP');
     const { data: appointmentOptions = [], refetch, isLoading } = useQuery({
         queryKey: ['appointmentOptions', date],
-        queryFn: () => fetch(`http://localhost:5000/appointmentOptions?date=${date}`)
-            .then(res => res.json())
-    })
+        queryFn: async () => {
+            const res = await fetch(`http://localhost:5000/v2/appointmentOptions?date=${date}`);
+            const data = await res.json();
+            return data
+        }
+    });
 
-    if (isLoading) {
-        return <Loading />
+    if(isLoading){
+        return <Loading></Loading>
     }
 
     return (
-        <div className='my-16'>
-            <p className='text-xl text-secondary text-center'>Available Services on {format(selectedDate, 'PP')} </p>
+        <section className='my-16'>
+            <p className='text-center text-secondary font-bold'>Available Appointments on {format(selectedDate, 'PP')}</p>
             <div className='grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-6'>
                 {
-                    appointmentOptions.map(appointmentOption => <AvailableAppointment
-                        key={appointmentOption._id}
-                        appointmentOption={appointmentOption}
-                        setTreatment={setTreatment} />)
+                    appointmentOptions.map(option => <AppointmentOption
+                        key={option._id}
+                        appointmentOption={option}
+                        setTreatment={setTreatment}
+                    ></AppointmentOption>)
                 }
             </div>
-            <AppointmentModal
-                setTreatment={setTreatment}
-                selectedDate={selectedDate}
-                treatment={treatment}
-                refetch={refetch}></AppointmentModal>
-        </div>
+            {
+                treatment &&
+                <BookingModal
+                    selectedDate={selectedDate}
+                    treatment={treatment}
+                    setTreatment={setTreatment}
+                    refetch={refetch}
+                ></BookingModal>
+            }
+        </section>
     );
 };
 

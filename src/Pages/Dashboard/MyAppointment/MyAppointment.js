@@ -3,7 +3,8 @@ import React, { useContext } from 'react';
 import { AuthContext } from '../../../contexts/AuthProvider';
 
 const MyAppointment = () => {
-    const { user } = useContext(AuthContext)
+    const { user } = useContext(AuthContext);
+
     const url = `http://localhost:5000/bookings?email=${user?.email}`;
 
     const { data: bookings = [] } = useQuery({
@@ -11,7 +12,7 @@ const MyAppointment = () => {
         queryFn: async () => {
             const res = await fetch(url, {
                 headers: {
-                    authorization: `bearer ${localStorage.getItem('accessToken')}`
+                   authorization: `bearer ${localStorage.getItem('accessToken')}` 
                 }
             });
             const data = await res.json();
@@ -21,12 +22,9 @@ const MyAppointment = () => {
 
     return (
         <div>
-            <h2 className='text-3xl mb-5'>
-                My Appointments
-            </h2>
+            <h3 className="text-3xl mb-5">My Appointments</h3>
             <div className="overflow-x-auto">
                 <table className="table w-full">
-                    {/* head */}
                     <thead>
                         <tr>
                             <th></th>
@@ -38,15 +36,13 @@ const MyAppointment = () => {
                     </thead>
                     <tbody>
                         {
-                            bookings?.map((booking, i) =>
-                                <tr key={booking._id}>
-                                    <th>{i + 1}</th>
-                                    <th>{booking.patient}</th>
-                                    <th>{booking.treatment}</th>
-                                    <th>{booking.appointmentDate}</th>
-                                    <th>{booking.slot}</th>
-                                </tr>
-                            )
+                            bookings.map((booking, i) => <tr key={booking._id}>
+                                <th>{i+1}</th>
+                                <td>{booking.patient}</td>
+                                <td>{booking.treatment}</td>
+                                <td>{booking.appointmentDate}</td>
+                                <td>{booking.slot}</td>
+                            </tr>)
                         }
                     </tbody>
                 </table>
