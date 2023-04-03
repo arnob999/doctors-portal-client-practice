@@ -12,7 +12,7 @@ const MyAppointment = () => {
         queryFn: async () => {
             const res = await fetch(url, {
                 headers: {
-                   authorization: `bearer ${localStorage.getItem('accessToken')}` 
+                    authorization: `bearer ${localStorage.getItem('accessToken')}`
                 }
             });
             const data = await res.json();
@@ -35,9 +35,9 @@ const MyAppointment = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            bookings.map((booking, i) => <tr key={booking._id}>
-                                <th>{i+1}</th>
+                        {bookings &&
+                            bookings?.map((booking, i) => <tr key={booking._id}>
+                                <th>{i + 1}</th>
                                 <td>{booking.patient}</td>
                                 <td>{booking.treatment}</td>
                                 <td>{booking.appointmentDate}</td>
