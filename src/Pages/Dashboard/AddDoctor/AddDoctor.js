@@ -16,13 +16,29 @@ const AddDoctor = () => {
         }
     })
 
-    const handleAddDoctor = data => {
-        console.log(data)
-    }
-
     if (isLoading) {
         return <Loading />
     }
+    const handleAddDoctor = data => {
+        const image = data.img[0]
+        const formData = new FormData()
+        formData.append('image', image)
+        const url = `https://api.imgbb.com/1/upload?expiration=600&key=${imageHostKey}`
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.json())
+            .then(imgData => {
+                if (imgData.success) {
+                    console.log(imgData.data.url)
+                }
+            })
+    }
+
+
+
+    const imageHostKey = process.env.REACT_APP_imgbb_key
     return (
         <div className='w-96 p-7'>
             <h2 className='text-3xl'>Add a doctor</h2>
@@ -73,7 +89,6 @@ const AddDoctor = () => {
                         className="input " />
                     {errors.img && <p className='text-red-600'>{errors.img?.message}</p>}
                 </div>
-
 
                 <input className='btn btn-accent w-full mt-4' value="Add Doctor" type="submit" />
                 {/* <div>
