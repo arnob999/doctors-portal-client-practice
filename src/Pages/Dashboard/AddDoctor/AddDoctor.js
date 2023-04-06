@@ -57,7 +57,7 @@ const AddDoctor = () => {
                         .then(result => {
                             console.log(result)
                             toast.success(`${data.name} is addedd successfully`)
-                            navigate('/dashboard/managdoctors')
+                            navigate('/dashboard/managedoctors')
                         })
                 }
             })
@@ -118,9 +118,6 @@ const AddDoctor = () => {
                 </div>
 
                 <input className='btn btn-accent w-full mt-4' value="Add Doctor" type="submit" />
-                {/* <div>
-                    {loginError && <p className='text-red-600'>{loginError}</p>}
-                </div> */}
             </form>
         </div>
     );
