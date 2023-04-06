@@ -1,8 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useState } from 'react';
 import Loading from '../../Shared/Loading/Loading';
+import ConfirmationModal from '../../Shared/ConfirmationModal/ConfirmationModal';
 
 const ManageDoctors = () => {
+    const [deletingDoctor, setDeletingDoctor] = useState(null)
+    const closeModal = () => {
+        setDeletingDoctor(null)
+    }
+
+    const handleDeleteDoctor = (doctor) => {
+        console.log(doctor)
+    }
+
     const { data: doctors, isLoading } = useQuery({
         queryKey: ["doctors"],
         queryFn: async () => {
@@ -45,17 +55,33 @@ const ManageDoctors = () => {
                         {
                             doctors.map((doctor, i) => <tr key={doctor._id}>
                                 <th>{i + 1}</th>
-                                <td></td>
+                                <td>
+                                    <div className='avatar'>
+                                        <div className='w-24 rounded-full'>
+                                            <img src={doctor.image} alt="" />
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>{doctor.name}</td>
                                 <td>{doctor.email}</td>
                                 <td>{doctor.specialty}</td>
-                                <td>Blue</td>
+                                <td>
+                                    < label onClick={() => setDeletingDoctor(doctor)} htmlFor="confirmation-modal" className="btn btn-sm btn-error" >Delete</label >
+                                </td>
                             </tr>
                             )
                         }
                     </tbody>
                 </table>
             </div>
+            {
+                deletingDoctor && <ConfirmationModal
+                    title={`Are you want to delete?`}
+                    message={`If you delete ${deletingDoctor?.name} this can't be undone`}
+                    closeModal={closeModal}
+                    successAction={handleDeleteDoctor}
+                    modalData={deletingDoctor} />
+            }
         </div>
     );
 };
