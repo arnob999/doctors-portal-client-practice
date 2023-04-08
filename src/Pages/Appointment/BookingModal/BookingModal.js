@@ -5,7 +5,7 @@ import { AuthContext } from '../../../contexts/AuthProvider';
 
 const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
     // treatment is just another name of appointmentOptions with name, slots, _id
-    const { name: treatmentName, slots } = treatment;
+    const { name: treatmentName, slots, price } = treatment;
     const date = format(selectedDate, 'PP');
     const { user } = useContext(AuthContext);
 
@@ -16,6 +16,7 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
         const name = form.name.value;
         const email = form.email.value;
         const phone = form.phone.value;
+        // const price = form.price.value
         // [3, 4, 5].map((value, i) => console.log(value))
         const booking = {
             appointmentDate: date,
@@ -24,6 +25,7 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
             slot,
             email,
             phone,
+            price
         }
 
         // TODO: send data to the server
@@ -44,7 +46,7 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
                     toast.success('Booking confirmed');
                     refetch();
                 }
-                else{
+                else {
                     toast.error(data.message);
                 }
             })
