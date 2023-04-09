@@ -14,7 +14,7 @@ const CheckoutForm = ({ booking }) => {
 
 
     useEffect(() => {
-        fetch('http://localhost:5000/create-payment-intents', {
+        fetch('https://doctors-portal-server-lime-eta.vercel.app/create-payment-intents', {
             method: "POST",
             headers: {
                 "content-type": "application/json",
@@ -80,7 +80,7 @@ const CheckoutForm = ({ booking }) => {
                 bookingId: _id
             }
             //u should store payment info to database
-            fetch("http://localhost:5000/payments", {
+            fetch("https://doctors-portal-server-lime-eta.vercel.app/payments", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",

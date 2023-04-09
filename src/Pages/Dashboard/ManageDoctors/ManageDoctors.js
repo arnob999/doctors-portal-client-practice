@@ -16,7 +16,7 @@ const ManageDoctors = () => {
         queryKey: ["doctors"],
         queryFn: async () => {
             try {
-                const res = await fetch('http://localhost:5000/doctors', {
+                const res = await fetch('https://doctors-portal-server-lime-eta.vercel.app/doctors', {
                     headers: {
                         authorization: `bearrer ${localStorage.getItem('accessToken')}`
                     }
@@ -31,7 +31,7 @@ const ManageDoctors = () => {
     })
 
     const handleDeleteDoctor = (doctor) => {
-        const url = `http://localhost:5000/doctors/${doctor._id}`
+        const url = `https://doctors-portal-server-lime-eta.vercel.app/doctors/${doctor._id}`
         fetch(url, {
             method: 'DELETE',
             headers: {

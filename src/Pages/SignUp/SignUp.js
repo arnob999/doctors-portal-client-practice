@@ -13,7 +13,7 @@ const SignUp = () => {
     const [token] = useToken(createdUserEmail);
     const navigate = useNavigate();
 
-    if(token){
+    if (token) {
         navigate('/');
     }
 
@@ -39,22 +39,22 @@ const SignUp = () => {
             });
     }
 
-    const saveUser = (name, email) =>{
-        const user ={name, email};
-        fetch('http://localhost:5000/users', {
+    const saveUser = (name, email) => {
+        const user = { name, email };
+        fetch('https://doctors-portal-server-lime-eta.vercel.app/users', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
             body: JSON.stringify(user)
         })
-        .then(res => res.json())
-        .then(data =>{
-            setCreatedUserEmail(email);
-        })
+            .then(res => res.json())
+            .then(data => {
+                setCreatedUserEmail(email);
+            })
     }
 
-    
+
 
     return (
         <div className='h-[800px] flex justify-center items-center'>
