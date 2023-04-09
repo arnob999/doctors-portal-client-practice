@@ -1,11 +1,13 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const CheckoutForm = ({ booking }) => {
-    const { price, patient, email } = booking
+    const { _id, price, patient, email } = booking
     const stripe = useStripe()
     const elements = useElements();
     const [cardError, setCardError] = useState('')
+    const [processing, setProcessing] = useState(false)
     const [clientSecret, setClientSecret] = useState('')
     const [success, setSuccess] = useState('')
     const [transactionId, setTransactionId] = useState('')
@@ -51,6 +53,7 @@ const CheckoutForm = ({ booking }) => {
 
         //
         setSuccess('')
+        setProcessing(true)
         const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
             clientSecret,
             {
@@ -70,9 +73,30 @@ const CheckoutForm = ({ booking }) => {
             return;
         }
         if (paymentIntent.status === "succeeded") {
-            setSuccess('Congrats! Your payment is completed')
-            setTransactionId(paymentIntent.id)
+            const payment = {
+                price,
+                transactionId: paymentIntent.id,
+                email,
+                bookingId: _id
+            }
+            //u should store payment info to database
+            fetch("http://localhost:5000/payments", {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                    authorization: `bearer ${localStorage.getItem("accessToken")}`
+                },
+                body: JSON.stringify(payment)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.insertedid) {
+                        setSuccess('Congrats! Your payment is completed')
+                        setTransactionId(paymentIntent.id)
+                    }
+                })
         }
+        setProcessing(false)
     }
     return (
         <>
@@ -93,7 +117,7 @@ const CheckoutForm = ({ booking }) => {
                         },
                     }}
                 />
-                <button className='btn btn-sm mt-4 btn-primary' type="submit" disabled={!stripe || !clientSecret}>
+                <button className='btn btn-sm mt-4 btn-primary' type="submit" disabled={!stripe || !clientSecret || processing}>
                     Pay
                 </button>
             </form>
@@ -105,6 +129,7 @@ const CheckoutForm = ({ booking }) => {
                     <p>Your TrxID: <span className='font-bold'>{transactionId}</span></p>
                 </div>
             }
+            <p className='text-lg mt-7'>Go to <Link to={'/dashboard'} className='btn btn-sm btn-secondary'>My Appointment</Link></p>
         </>
     );
 };

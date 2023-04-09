@@ -60,9 +60,9 @@ const MyAppointment = () => {
                                             </Link>
                                         }
                                         {
-                                            booking.price && booking.paid && <button className='btn btn-primary text-white btn-sm'>
+                                            booking.price && booking.paid && <span className=' text-green-500'>
                                                 Paid
-                                            </button>
+                                            </span>
                                         }
                                     </td>
                                 </tr>)
