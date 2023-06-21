@@ -26,7 +26,7 @@ const SignUp = () => {
         createUser(data.email, data.password)
             .then(result => {
                 const user = result.user;
-                console.log(user);
+
                 toast('User Created Successfully.')
                 const userInfo = {
                     displayName: data.name
@@ -36,6 +36,7 @@ const SignUp = () => {
                         saveUser(data.name, data.email);
                     })
                     .catch(err => console.log(err));
+                navigate("/")
             })
             .catch(error => {
                 console.log(error)
@@ -45,7 +46,7 @@ const SignUp = () => {
 
     const saveUser = (name, email) => {
         const user = { name, email };
-        fetch('https://doctors-portal-server-lime-eta.vercel.app/users', {
+        fetch('http://localhost:5000/users', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
